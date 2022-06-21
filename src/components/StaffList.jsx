@@ -78,7 +78,7 @@ class StaffList extends Component {
                     {list}
                 </div>
                 <div className="row mb-3">
-                    <div className={this.state.colNum ? `col-${12 / this.state.colNum} mt-3` : 'col-12 col-md-6 col-lg-4 mt-3'}>
+                    <div className="col-12 col-md-6 col-lg-4 mt-3">
                         {
                             this.state.staffInfo ? this.renderStaffDetail() :
                                 <CardText>Bấm vào tên nhân viên để xem thông tin</CardText>
