@@ -52,7 +52,7 @@ class Menu extends Component {
                             })
                         }
                     </div>
-                </div >
+                </div>
             )
         }
     }
