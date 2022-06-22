@@ -6,21 +6,21 @@ import { DISHES } from '../shared/dishes';
 import { COMMENTS } from '../shared/comments';
 
 class Main extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
             dishes: DISHES,
             selectedDish: null,
-            comments: null
+            comments: COMMENTS
         };
     }
 
     onDishSelect(dishId) {
-        this.setState({
+        this.setState({ 
             ...this.state,
-            selectedDish: dishId,
-            comments: COMMENTS.filter(comment => dishId === comment.dishId)
-        });
+            selectedDish: dishId
+         });
     }
 
     render() {
@@ -33,7 +33,7 @@ class Main extends Component {
                 </Navbar>
                 <div className='container'>
                     <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)} />
-                    <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} comments={this.state.comments} />
+                    <DishDetail dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
                 </div>
             </div>
         );
