@@ -14,18 +14,15 @@ class Header extends Component {
             isnavopen: !this.state.isnavopen
         });
     }
-    componentDidUpdate() {
-        console.log(this.state.isnavopen);
-    }
     render() {
         return (
             <React.Fragment>
-                <Navbar dark expand="md">
+                <Navbar dark expand="md" className='navbar'>
                     {/* <div className="container"> */}
-                    <NavbarToggler onClick={this.toggleNav} />
                     <NavbarBrand className="mr-auto" href="/">
                         <img src='assets/images/logo.png' height="30" width="41" alt="Ristorante Con Fusion" />
                     </NavbarBrand>
+                    <NavbarToggler onClick={this.toggleNav} />
                     <Collapse isOpen={this.state.isnavopen} navbar>
                         <Nav navbar>
                             <NavItem>
