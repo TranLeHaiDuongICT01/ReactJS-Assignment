@@ -3,7 +3,7 @@ import { STAFFS, DEPARTMENTS } from './shared/staffs';
 import './App.css';
 import { BrowserRouter as Router, Route, Routes, Navigate, useParams } from 'react-router-dom';
 import StaffList from './components/StaffList';
-import Header from './components/Head';
+import Header from './components/Header';
 import Footer from './components/Footer';
 import StaffDetail from './components/StaffDetail';
 import Departments from './components/Departments';

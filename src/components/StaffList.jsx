@@ -1,6 +1,21 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardText, CardImg, Input, Button } from 'reactstrap';
+
+const Staffs = ({ staffs }) => {
+    return (
+        staffs.map(staff => (
+            <div key={staff.id} className='col-6 col-md-4 col-lg-2 mt-3'>
+                <Card className='hover-effect'>
+                    <Link to={`/staffs/${staff.id}`} className='text'>
+                        <CardImg src={staff.image} alt={staff.name} />
+                        <CardText className='p-1 text'>{staff.name}</CardText>
+                    </Link>
+                </Card>
+            </div>
+        ))
+    )
+}
 class StaffList extends Component {
     constructor(props) {
         super(props);
@@ -31,16 +46,6 @@ class StaffList extends Component {
             });
     }
     render() {
-        const list = this.state.staffs.map(staff => (
-            <div key={staff.id} className='col-6 col-md-4 col-lg-2 mt-3'>
-                <Card className='hover-effect'>
-                    <Link to={`/staffs/${staff.id}`} className='text'>
-                        <CardImg src={staff.image} alt={staff.name} />
-                        <CardText className='p-1 text'>{staff.name}</CardText>
-                    </Link>
-                </Card>
-            </div>
-        ));
         return (
             <div className="container">
                 <form className="row mt-3 p-3" onSubmit={this.handleSearch}>
@@ -56,7 +61,7 @@ class StaffList extends Component {
                     <Button color='primary' type='submit'>Sort</Button>
                 </form>
                 <div className="row mb-3">
-                    {list}
+                    <Staffs staffs={this.state.staffs} />
                 </div>
             </div>
         );
