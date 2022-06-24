@@ -3,6 +3,7 @@ import dateFormat from 'dateformat';
 import { Link } from 'react-router-dom';
 import { Card, CardTitle, CardText, Breadcrumb, BreadcrumbItem } from 'reactstrap';
 const StaffDetail = ({ staff }) => {
+
   return (
     <div>
       <Card className='p-3'>
