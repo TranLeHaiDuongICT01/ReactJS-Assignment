@@ -1,18 +1,31 @@
 import React, { Component } from "react";
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem } from 'reactstrap';
-import { NavLink } from 'react-router-dom'
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Modal, Button, ModalHeader, ModalBody, Form, FormGroup, Label, Input } from 'reactstrap';
+import { NavLink } from 'react-router-dom';
 class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isnavopen: true
+            isnavopen: true,
+            isModalOpen: false
         }
         this.toggleNav = this.toggleNav.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+        this.handleLogin = this.handleLogin.bind(this);
     }
     toggleNav() {
         this.setState({
             isnavopen: !this.state.isnavopen
         });
+    }
+    toggleModal() {
+        this.setState({
+            isModalOpen: !this.state.isModalOpen
+        });
+    }
+    handleLogin(e) {
+        e.preventDefault();
+        this.toggleModal();
+        alert("Username: " + this.username.value + "\nPassword: " + this.password.value + "\nRemember:" + this.remember.checked);
     }
     render() {
         return (
@@ -24,7 +37,7 @@ class Header extends Component {
                     </NavbarBrand>
                     <NavbarToggler onClick={this.toggleNav} />
                     <Collapse isOpen={this.state.isnavopen} navbar>
-                        <Nav navbar>
+                        <Nav navbar className="nav-group">
                             <NavItem>
                                 <NavLink className="nav-link" to='/home'>
                                     <span className="fa fa-home fa-lg"></span> Home
@@ -48,6 +61,13 @@ class Header extends Component {
                                 </NavLink>
                             </NavItem>
                         </Nav>
+                        <Nav className="ml-auto" navbar>
+                            <NavItem>
+                                <Button outline onClick={this.toggleModal}>
+                                    <span className="fa fa-sign-in">Login</span>
+                                </Button>
+                            </NavItem>
+                        </Nav>
                     </Collapse >
                     {/* </div> */}
                 </Navbar >
@@ -61,6 +81,35 @@ class Header extends Component {
                         </div>
                     </div>
                 </div>
+                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} unmountOnClose={false}>
+                    <ModalHeader toggle={this.toggleModal}>
+                        Login
+                    </ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit={this.handleLogin}>
+                            <FormGroup>
+                                <Label htmlFor="username">Username</Label>
+                                <Input type="text" id="username" name="username" innerRef={(input) => this.username = input} />
+                            </FormGroup>
+
+                            <FormGroup>
+                                <Label htmlFor="password">Password</Label>
+                                <Input type="password" id="password" name="password" innerRef={(input) => this.password = input} />
+                            </FormGroup>
+
+                            <FormGroup check className="mb-3">
+                                <Label check>
+                                    <Input type="checkbox" name="remember" innerRef={(input) => this.remember = input} />
+                                    Remember me
+                                </Label>
+                            </FormGroup>
+
+                            <FormGroup>
+                                <Button type="submit" color="primary">Login</Button>
+                            </FormGroup>
+                        </Form>
+                    </ModalBody>
+                </Modal>
             </React.Fragment >
         );
     }
