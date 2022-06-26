@@ -1,7 +1,7 @@
 import React from 'react';
 import dateFormat from 'dateformat';
 import { Link } from 'react-router-dom';
-import { Card, CardTitle, CardText, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Card, CardTitle, CardText, Breadcrumb, BreadcrumbItem, CardImg } from 'reactstrap';
 const StaffDetail = ({ staff }) => {
 
   return (
@@ -13,12 +13,19 @@ const StaffDetail = ({ staff }) => {
             <BreadcrumbItem active>{staff.name}</BreadcrumbItem>
           </Breadcrumb>
         </div>
-        <CardTitle>Họ và tên: {staff.name}</CardTitle>
-        <CardText>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}</CardText>
-        <CardText>Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}</CardText>
-        <CardText>Phòng ban: {staff.department.name}</CardText>
-        <CardText>Số ngày nghỉ còn lại: {staff.annualLeave}</CardText>
-        <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
+        <div className="row">
+          <div className="col-5 col-md-3">
+            <CardImg src={staff.image}></CardImg>
+          </div>
+          <div className="col-7">
+            <CardTitle>Họ và tên: {staff.name}</CardTitle>
+            <CardText>Ngày sinh: {dateFormat(staff.doB, "dd/mm/yyyy")}</CardText>
+            <CardText>Ngày vào công ty: {dateFormat(staff.startDate, "dd/mm/yyyy")}</CardText>
+            <CardText>Phòng ban: {staff.department.name}</CardText>
+            <CardText>Số ngày nghỉ còn lại: {staff.annualLeave}</CardText>
+            <CardText>Số ngày đã làm thêm: {staff.overTime}</CardText>
+          </div>
+        </div>
       </Card>
     </div>
   )
