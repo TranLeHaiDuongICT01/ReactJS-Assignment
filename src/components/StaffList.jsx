@@ -30,7 +30,7 @@ class StaffList extends Component {
         const search = e.target.querySelector('input').value;
         this.setState({
             ...this.state,
-            staffs: this.props.staffs.filter(staff => staff.name.includes(search))
+            staffs: this.props.staffs.filter(staff => staff.name.toLowerCase().includes(search.toLowerCase()))
         });
     }
     handleSort(e) {
