@@ -1,44 +1,50 @@
 import React, { Component } from 'react';
-import { STAFFS, DEPARTMENTS } from './shared/staffs';
 import './App.css';
-import { BrowserRouter as Router, Route, Routes, Navigate, useParams } from 'react-router-dom';
+import { Route, Routes, Navigate, useParams } from 'react-router-dom';
 import StaffList from './components/StaffList';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import StaffDetail from './components/StaffDetail';
 import Departments from './components/Departments';
 import SalaryTable from './components/SalaryTable';
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      staffs: STAFFS,
-      departments: DEPARTMENTS
-    }
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+const mapStateToProps = (state) => {
+  return {
+    staffs: state.staffs,
+    departments: state.departments
   }
+}
+class App extends Component {
   render() {
     const StaffWithId = () => {
       const { id } = useParams()
       return (
-        <StaffDetail staff={this.state.staffs.find(st => st.id === Number(id))} />
+        <StaffDetail staff={this.props.staffs.find(st => st.id === Number(id))} />
       )
     }
     return (
-      <Router>
-        <div className="App">
-          <Header />
-          <Routes>
-            <Route exact path='/staffs' element={<StaffList staffs={this.state.staffs} />} />
-            <Route path='/staffs/:id' element={<StaffWithId />} />
-            <Route exact path='/departments' element={<Departments departments={this.state.departments} />} />
-            <Route exact path='/salaryTable' element={<SalaryTable staffs={this.state.staffs} />} />
-            <Route path='*' element={<Navigate to='/staffs' replace />} />
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route exact path='/staffs' element={<StaffList staffs={this.props.staffs} departments={this.props.departments} />} />
+          <Route path='/staffs/:id' element={<StaffWithId />} />
+          <Route exact path='/departments' element={<Departments departments={this.props.departments} />} />
+          <Route exact path='/salaryTable' element={<SalaryTable staffs={this.props.staffs} />} />
+          <Route path='*' element={<Navigate to='/staffs' replace />} />
+        </Routes>
+        <Footer />
+      </div>
     );
   }
 }
 
-export default App;
+export const withRouter = (Component) => {
+  const Wrapper = (props) => {
+    const history = useNavigate();
+    return <Component history={history} {...props} />;
+  };
+  return Wrapper;
+};
+
+export default withRouter(connect(mapStateToProps)(App));

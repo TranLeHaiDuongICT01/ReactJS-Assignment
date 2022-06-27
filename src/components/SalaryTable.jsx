@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Breadcrumb, BreadcrumbItem, Card, CardText, CardTitle, Button, CardBody } from 'reactstrap';
+import { Breadcrumb, BreadcrumbItem, Card, CardText, CardTitle, Form,Button, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 const calculateSalary = (salaryScale, overTime) => {
     return Number(salaryScale * 3000000 + overTime * 200000).toFixed(0);
@@ -47,8 +47,8 @@ class SalaryTable extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <form className="row p-3" onSubmit={this.handleSort}>
-                    <select className="col-9 mr-2 select-sort" defaultValue="">
+                <Form className="p-3" style={{ display: 'flex', flexDirection: 'row', gap: '20px' }} onSubmit={this.handleSort}>
+                    <select className="form-control" defaultValue="">
                         <option value="" disabled>Select sort field</option>
                         <option value="salary">Salary(asc)</option>
                         <option value="-salary">Salary(desc)</option>
@@ -56,7 +56,7 @@ class SalaryTable extends Component {
                         <option value="-id">Staff ID(desc)</option>
                     </select>
                     <Button color='primary' type='submit'>Sort</Button>
-                </form>
+                </Form>
                 <div className="row mt-3 pl-2">
                     <Breadcrumb>
                         <BreadcrumbItem><Link to='/staffs'>Nhân Viên</Link></BreadcrumbItem>
