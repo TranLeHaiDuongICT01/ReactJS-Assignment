@@ -106,6 +106,26 @@ class StaffList extends Component {
         }
         staffs.push(newStaff);
         localStorage.setItem('staffs', JSON.stringify(staffs));
+        this.setState({
+            ...this.state,
+            formData: {
+                name: '',
+                doB: '',
+                salaryScale: '',
+                startDate: '',
+                department: 'Sale',
+                annualLeave: '',
+                overTime: ''
+            },
+            touched: {
+                name: false,
+                doB: false,
+                salaryScale: false,
+                startDate: false,
+                annualLeave: false,
+                overTime: false
+            }
+        })
         this.toggleModal();
     }
     handleChange(e) {

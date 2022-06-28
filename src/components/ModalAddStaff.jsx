@@ -1,6 +1,6 @@
 import React from 'react'
 import { Input, Button, Modal, ModalHeader, ModalBody, Form, Label, Col, FormGroup, FormFeedback } from 'reactstrap';
-const ModalAddStaff = ({isModalOpen, toggleModal, handleSubmit, formData, errors, departments, handleChange, handleBlur}) => {
+const ModalAddStaff = ({ isModalOpen, toggleModal, handleSubmit, formData, errors, departments, handleChange, handleBlur }) => {
     return (
         <Modal isOpen={isModalOpen} toggle={toggleModal} unmountOnClose={false}>
             <ModalHeader toggle={toggleModal}>Thêm Nhân Viên</ModalHeader>
@@ -64,7 +64,8 @@ const ModalAddStaff = ({isModalOpen, toggleModal, handleSubmit, formData, errors
                                 className="form-select"
                                 id="department"
                                 name="department"
-                                defaultValue={formData.department}
+                                value={formData.department}
+                                onChange={handleChange}
                             >
                                 {departments?.map(department => (
                                     <option key={department.id} value={department.name}>{department.name}</option>
