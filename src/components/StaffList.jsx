@@ -21,6 +21,7 @@ class StaffList extends Component {
         super(props);
         this.state = {
             isModalOpen: false,
+            staffs: this.props.staffs,
             formData: {
                 name: '',
                 doB: '',
@@ -211,7 +212,7 @@ class StaffList extends Component {
                 </div>
                 <div className="container">
                     <div className="row mb-3">
-                        <Staffs staffs={this.props.staffs} />
+                        <Staffs staffs={this.state.staffs} />
                     </div>
                 </div>
                 <ModalAddStaff
