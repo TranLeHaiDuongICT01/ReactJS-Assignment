@@ -7,12 +7,29 @@ const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length < len;
 const minLength = (len) => (val) => val && val.length > len;
 const notNegative = (val) => Number(val) >= 0;
+const initialState = {
+    name: '',
+    doB: '',
+    salaryScale: '',
+    startDate: '',
+    department: 'Sale',
+    annualLeave: '',
+    overTime: ''
+}
+let dispatcher;
 const ModalAddStaff = ({ isModalOpen, toggleModal, handleSubmit, departments }) => {
+
+    const attachDispatch = (dispatch) => {
+        dispatcher = dispatch;
+    }
     return (
         <Modal isOpen={isModalOpen} toggle={toggleModal} unmountOnClose={false}>
             <ModalHeader toggle={toggleModal}>Thêm Nhân Viên</ModalHeader>
             <ModalBody>
-                <LocalForm onSubmit={(values) => handleSubmit(values)} className='form'>
+                <LocalForm model='staff' onSubmit={(values) => handleSubmit(values, dispatcher)} className='form' initialState={initialState}
+                    getDispatch={(dispatch) => {
+                        attachDispatch(dispatch);
+                    }}>
                     <Row className="form-group">
                         <Label htmlFor="name" md={5}>Tên</Label>
                         <Col md={7}>
@@ -28,7 +45,6 @@ const ModalAddStaff = ({ isModalOpen, toggleModal, handleSubmit, departments }) 
                                 }}
                             />
                             <Errors
-                                // className='text-danger'
                                 model='.name'
                                 show='touched'
                                 messages={{

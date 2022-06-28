@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardText, CardImg, Input, Button, Form } from 'reactstrap';
 import ModalAddStaff from "./ModalAddStaff";
+import { actions } from "react-redux-form";
 const Staffs = ({ staffs }) => {
     return (
         staffs?.map(staff => (
@@ -20,7 +21,8 @@ class StaffList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isModalOpen: false
+            isModalOpen: false,
+            staffs: this.props.staffs
         }
         this.handleSearch = this.handleSearch.bind(this);
         this.handleSort = this.handleSort.bind(this);
@@ -52,7 +54,7 @@ class StaffList extends Component {
             isModalOpen: !this.state.isModalOpen
         });
     }
-    handleSubmit(values) {
+    handleSubmit(values, dispatcher) {
         const department = this.props.departments.find(de => de.name === values.department);
         const staffs = this.props.staffs;
         const newStaff = {
@@ -69,6 +71,15 @@ class StaffList extends Component {
         }
         staffs.push(newStaff);
         localStorage.setItem('staffs', JSON.stringify(staffs));
+        dispatcher(actions.reset('staff', {
+            name: '',
+            doB: '',
+            salaryScale: '',
+            startDate: '',
+            department: 'Sale',
+            annualLeave: '',
+            overTime: ''
+        }));
         this.toggleModal();
     }
     render() {
@@ -94,14 +105,14 @@ class StaffList extends Component {
                 </div>
                 <div className="container">
                     <div className="row mb-3">
-                        <Staffs staffs={this.props.staffs} />
+                        <Staffs staffs={this.state.staffs} />
                     </div>
                 </div>
-                <ModalAddStaff 
-                isModalOpen={this.state.isModalOpen}
-                toggleModal={this.toggleModal}
-                handleSubmit={this.handleSubmit}
-                departments={this.props.departments}
+                <ModalAddStaff
+                    isModalOpen={this.state.isModalOpen}
+                    toggleModal={this.toggleModal}
+                    handleSubmit={this.handleSubmit}
+                    departments={this.props.departments}
                 />
 
             </React.Fragment>
