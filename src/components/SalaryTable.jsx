@@ -48,7 +48,7 @@ class SalaryTable extends Component {
         return (
             <div className="container-fluid">
                 <Form className="p-3" style={{ display: 'flex', flexDirection: 'row', gap: '20px' }} onSubmit={this.handleSort}>
-                    <select className="form-control" defaultValue="">
+                    <select className="form-control form-select" defaultValue="">
                         <option value="" disabled>Select sort field</option>
                         <option value="salary">Salary(asc)</option>
                         <option value="-salary">Salary(desc)</option>

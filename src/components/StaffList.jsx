@@ -55,7 +55,8 @@ class StaffList extends Component {
         });
     }
     handleSubmit(values, dispatcher) {
-        const department = this.props.departments.find(de => de.name === values.department);
+        const departments = this.props.departments;
+        const index = departments.findIndex(de => de.name === values.department);
         const staffs = this.props.staffs;
         const newStaff = {
             id: staffs.length,
@@ -63,7 +64,7 @@ class StaffList extends Component {
             doB: new Date(values?.doB),
             salaryScale: values.salaryScale,
             startDate: values.startDate,
-            department: department || null,
+            department: departments[index] || 'Sale',
             annualLeave: values.annualLeave,
             overTime: values.overTime,
             salary: values,
@@ -71,6 +72,8 @@ class StaffList extends Component {
         }
         staffs.push(newStaff);
         localStorage.setItem('staffs', JSON.stringify(staffs));
+        departments[index].numberOfStaff = departments[index].numberOfStaff + 1;
+        localStorage.setItem('departments', JSON.stringify(departments));
         dispatcher(actions.reset('staff', {
             name: '',
             doB: '',
@@ -95,7 +98,7 @@ class StaffList extends Component {
                         <Button className="btn-form" type="submit" color='primary'>Search</Button>
                     </Form>
                     <Form className="col-12 col-lg-4 mt-4" style={{ display: 'flex', gap: '20px' }} onSubmit={this.handleSort}>
-                        <select className="form-control" defaultValue="">
+                        <select className="form-control form-select" defaultValue="">
                             <option value="" disabled>Select sort field</option>
                             <option value="doB">Date of birth(asc)</option>
                             <option value="-doB">Date of birth(desc)</option>
