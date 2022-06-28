@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Card, CardText, CardImg, Input, Button, Modal, ModalHeader, ModalBody, Form, Label, Col, FormGroup } from 'reactstrap';
+import { Card, CardText, CardImg, Input, Button, Form } from 'reactstrap';
+import ModalAddStaff from "./ModalAddStaff";
 const Staffs = ({ staffs }) => {
     return (
         staffs?.map(staff => (
@@ -27,8 +28,15 @@ class StaffList extends Component {
                 startDate: '',
                 department: 'Sale',
                 annualLeave: '',
-                overTime: '',
-                salary: ''
+                overTime: ''
+            },
+            touched: {
+                name: false,
+                doB: false,
+                salaryScale: false,
+                startDate: false,
+                annualLeave: false,
+                overTime: false
             }
         }
         this.handleSearch = this.handleSearch.bind(this);
@@ -36,6 +44,7 @@ class StaffList extends Component {
         this.toggleModal = this.toggleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
     }
     handleSearch(e) {
         e.preventDefault();
@@ -64,18 +73,35 @@ class StaffList extends Component {
     }
     handleSubmit(e) {
         e.preventDefault();
+        this.setState({
+            ...this.state,
+            touched: {
+                name: true,
+                doB: true,
+                salaryScale: true,
+                startDate: true,
+                annualLeave: true,
+                overTime: true
+            }
+        });
+        const errors = this.validate(this.state.formData.name, this.state.formData.doB,
+            this.state.formData.startDate, this.state.formData.salaryScale,
+            this.state.formData.annualLeave, this.state.formData.overTime, true);
+        if (errors.name !== '' || errors.doB !== '' || errors.startDate !== '' ||
+            errors.salaryScale !== '' || errors.annualLeave !== '' || errors.overTime !== '')
+            return;
+
         const department = this.props.departments.find(de => de.name === this.state.formData.department);
         const staffs = this.props.staffs;
         const newStaff = {
             id: staffs.length,
             name: this.state.formData?.name,
             doB: new Date(this.state.formData?.doB),
-            salaryScale: this.state.formData.salaryScale,
+            salaryScale: Number(this.state.formData.salaryScale),
             startDate: this.state.formData.startDate,
-            department: department || null,
-            annualLeave: this.state.formData.annualLeave,
-            overTime: this.state.formData.overTime,
-            salary: this.state.formData,
+            department: department || 'Sale',
+            annualLeave: Number(this.state.formData.annualLeave),
+            overTime: Number(this.state.formData.overTime),
             image: '/assets/images/alberto.png',
         }
         staffs.push(newStaff);
@@ -91,7 +117,58 @@ class StaffList extends Component {
             }
         })
     }
+    handleBlur(e) {
+        this.setState({
+            ...this.state,
+            touched: {
+                ...this.state.touched,
+                [e.target.name]: true
+            }
+        })
+    }
+    validate(name, doB, startDate, salaryScale, annualLeave, overTime, submit = false) {
+        const errors = {
+            name: '',
+            doB: '',
+            startDate: '',
+            salaryScale: '',
+            annualLeave: '',
+            overTime: ''
+        }
+        if (this.state.touched.name || submit) {
+            if (name.length === 0) errors.name = 'Yêu cầu nhập';
+            else if (name.length < 3) errors.name = 'Yêu cầu nhiều hơn 2 ký tự';
+            else if (name.length > 30) errors.name = 'Yêu cầu ít hơn 30 ký tự';
+        }
+        if ((this.state.touched.doB || submit) && doB.length === 0)
+            errors.doB = 'Yêu cầu nhập';
+        if ((this.state.touched.startDate || submit) && startDate.length === 0)
+            errors.startDate = 'Yêu cầu nhập';
+        if (this.state.touched.salaryScale || submit) {
+            if (salaryScale.length === 0)
+                errors.salaryScale = 'Yêu cầu nhập';
+            else if (Number(salaryScale) < 0)
+                errors.salaryScale = 'Cần lớn hơn hoặc bằng 0';
+        }
+
+        if (this.state.touched.annualLeave || submit) {
+            if (annualLeave.length === 0)
+                errors.annualLeave = 'Yêu cầu nhập';
+            else if (Number(annualLeave) < 0)
+                errors.annualLeave = 'Cần lớn hơn hoặc bằng 0';
+        }
+        if (this.state.touched.overTime || submit) {
+            if (overTime.length === 0)
+                errors.overTime = 'Yêu cầu nhập';
+            else if (Number(overTime) < 0)
+                errors.overTime = 'Cần lớn hơn hoặc bằng 0';
+        }
+        return errors;
+    }
     render() {
+        const errors = this.validate(this.state.formData.name, this.state.formData.doB,
+            this.state.formData.startDate, this.state.formData.salaryScale,
+            this.state.formData.annualLeave, this.state.formData.overTime);
         return (
             <React.Fragment>
                 <div className="row m-auto container p-0">
@@ -117,112 +194,16 @@ class StaffList extends Component {
                         <Staffs staffs={this.props.staffs} />
                     </div>
                 </div>
-                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal} unmountOnClose={false}>
-                    <ModalHeader toggle={this.toggleModal}>Thêm Nhân Viên</ModalHeader>
-                    <ModalBody>
-                        <Form onSubmit={this.handleSubmit} className='form'>
-                            <FormGroup>
-                                <Label htmlFor="name" md={5}>Tên</Label>
-                                <Col md={7}>
-                                    <Input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        value={this.state.formData.name}
-                                        onChange={this.handleChange}
-                                    />
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label htmlFor="doB" md={5}>Ngày sinh</Label>
-                                <Col md={7}>
-                                    <Input
-                                        type="date"
-                                        id="doB"
-                                        name="doB"
-                                        value={this.state.formData.doB}
-                                        onChange={this.handleChange}
-                                    />
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label htmlFor="startDate" md={5}>Ngày vào công ty</Label>
-                                <Col md={7}>
-                                    <Input
-                                        type="date"
-                                        id="startDate"
-                                        name="startDate"
-                                        value={this.state.formData.startDate}
-                                        onChange={this.handleChange}
-                                    />
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label htmlFor="department" md={5}>Phòng ban</Label>
-                                <Col md={7}>
-                                    <select
-                                        className="form-select"
-                                        id="department"
-                                        name="department"
-                                        defaultValue={this.state.formData.department}
-                                    >
-                                        {this?.props?.departments?.map(department => (
-                                            <option key={department.id} value={department.name}>{department.name}</option>
-                                        ))}
-                                    </select>
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label htmlFor="salaryScale" md={5}>Hệ số lương</Label>
-                                <Col md={7}>
-                                    <Input
-                                        type="number"
-                                        id="salaryScale"
-                                        name="salaryScale"
-                                        value={this.state.formData.salaryScale}
-                                        onChange={this.handleChange}
-                                    />
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label htmlFor="annualLeave" md={5}>Số ngày nghỉ còn lại</Label>
-                                <Col md={7}>
-                                    <Input
-                                        type="number"
-                                        id="annualLeave"
-                                        name="annualLeave"
-                                        value={this.state.formData.annualLeave}
-                                        onChange={this.handleChange}
-                                    />
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Label htmlFor="overTime" md={5}>Số ngày đã làm thêm</Label>
-                                <Col md={7}>
-                                    <Input
-                                        type="number"
-                                        id="overTime"
-                                        name="overTime"
-                                        value={this.state.formData.overTime}
-                                        onChange={this.handleChange}
-                                    />
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup>
-                                <Col>
-                                    <Button type='submit' color='primary'>Thêm</Button>
-                                </Col>
-                            </FormGroup>
-                        </Form>
-                    </ModalBody>
-                </Modal>
+                <ModalAddStaff
+                    isModalOpen={this.state.isModalOpen}
+                    toggleModal={this.toggleModal}
+                    handleSubmit={this.handleSubmit}
+                    formData={this.state.formData}
+                    errors={errors}
+                    departments={this.props.departments}
+                    handleChange={this.handleChange}
+                    handleBlur={this.handleBlur}
+                />
             </React.Fragment>
         );
     }
