@@ -92,7 +92,8 @@ class StaffList extends Component {
             errors.salaryScale !== '' || errors.annualLeave !== '' || errors.overTime !== '')
             return;
 
-        const department = this.props.departments.find(de => de.name === this.state.formData.department);
+        const departments = this.props.departments;
+        const index = departments.findIndex(de => de.name === this.state.formData.department);
         const staffs = this.props.staffs;
         const newStaff = {
             id: staffs.length,
@@ -100,13 +101,15 @@ class StaffList extends Component {
             doB: new Date(this.state.formData?.doB),
             salaryScale: Number(this.state.formData.salaryScale),
             startDate: this.state.formData.startDate,
-            department: department || 'Sale',
+            department: departments[index] || 'Sale',
             annualLeave: Number(this.state.formData.annualLeave),
             overTime: Number(this.state.formData.overTime),
             image: '/assets/images/alberto.png',
         }
         staffs.push(newStaff);
         localStorage.setItem('staffs', JSON.stringify(staffs));
+        departments[index].numberOfStaff = departments[index].numberOfStaff + 1;
+        localStorage.setItem('departments', JSON.stringify(departments));
         this.setState({
             ...this.state,
             formData: {
