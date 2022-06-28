@@ -6,7 +6,7 @@ const ModalAddStaff = ({ isModalOpen, toggleModal, handleSubmit, formData, error
             <ModalHeader toggle={toggleModal}>Thêm Nhân Viên</ModalHeader>
             <ModalBody>
                 <Form onSubmit={handleSubmit} className='form'>
-                    <FormGroup>
+                    <FormGroup className='row'>
                         <Label htmlFor="name" md={5}>Tên</Label>
                         <Col md={7}>
                             <Input
@@ -23,7 +23,7 @@ const ModalAddStaff = ({ isModalOpen, toggleModal, handleSubmit, formData, error
                         </Col>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className='row'>
                         <Label htmlFor="doB" md={5}>Ngày sinh</Label>
                         <Col md={7}>
                             <Input
@@ -40,7 +40,7 @@ const ModalAddStaff = ({ isModalOpen, toggleModal, handleSubmit, formData, error
                         </Col>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className='row'>
                         <Label htmlFor="startDate" md={5}>Ngày vào công ty</Label>
                         <Col md={7}>
                             <Input
@@ -57,7 +57,7 @@ const ModalAddStaff = ({ isModalOpen, toggleModal, handleSubmit, formData, error
                         </Col>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className='row'>
                         <Label htmlFor="department" md={5}>Phòng ban</Label>
                         <Col md={7}>
                             <select
@@ -74,7 +74,7 @@ const ModalAddStaff = ({ isModalOpen, toggleModal, handleSubmit, formData, error
                         </Col>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className='row'>
                         <Label htmlFor="salaryScale" md={5}>Hệ số lương</Label>
                         <Col md={7}>
                             <Input
@@ -91,7 +91,7 @@ const ModalAddStaff = ({ isModalOpen, toggleModal, handleSubmit, formData, error
                         </Col>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className='row'>
                         <Label htmlFor="annualLeave" md={5}>Số ngày nghỉ còn lại</Label>
                         <Col md={7}>
                             <Input
@@ -108,7 +108,7 @@ const ModalAddStaff = ({ isModalOpen, toggleModal, handleSubmit, formData, error
                         </Col>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className='row'>
                         <Label htmlFor="overTime" md={5}>Số ngày đã làm thêm</Label>
                         <Col md={7}>
                             <Input
@@ -125,7 +125,7 @@ const ModalAddStaff = ({ isModalOpen, toggleModal, handleSubmit, formData, error
                         </Col>
                     </FormGroup>
 
-                    <FormGroup>
+                    <FormGroup className='row'>
                         <Col>
                             <Button type='submit' color='primary'>Thêm</Button>
                         </Col>
