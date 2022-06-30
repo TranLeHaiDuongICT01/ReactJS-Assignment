@@ -146,3 +146,64 @@ export const leadersFailed = (errmess) => ({
     type: actionTypes.LEADER_FAILED,
     payload: errmess
 })
+
+
+export const fetchFeedbacks = () => (dispatch) => {
+    dispatch(feedbacksLoading());
+    return fetch(`${baseUrl}/feedback`)
+        .then(response => {
+            if (response.ok) return response;
+            throw new Error('Error ' + response.status + ': ' + response.statusText);
+        }, error => {
+            throw new Error(error.message);
+        })
+        .then(response => response.json())
+        .then(feedbacks => dispatch(addFeedbacks(feedbacks)))
+        .catch(err => dispatch(feedbacksFailed(err.message)))
+}
+
+
+export const feedbacksLoading = () => ({
+    type: actionTypes.FEEDBACKS_LOADING
+})
+
+export const feedbacksFailed = (errMess) => ({
+    type: actionTypes.FEEDBACKS_FAILED,
+    payload: errMess
+})
+
+export const addFeedbacks = (feedbacks) => ({
+    type: actionTypes.ADD_FEEDBACKS,
+    payload: feedbacks
+})
+
+export const postFeedback = (firstname, lastname, telnum, email, agree, contactType, message) => (dispatch) => {
+    const newFeedback = {
+        firstname, lastname, telnum, email, agree, contactType, message
+    }
+    newFeedback.date = new Date().toISOString();
+    return fetch(`${baseUrl}/feedback`, {
+        method: 'POST',
+        body: JSON.stringify(newFeedback),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+        .then(response => {
+            if (response.ok) return response;
+            throw new Error('Error ' + response.status + ': ' + response.statusText);
+        }, error => {
+            throw new Error(error.message);
+        })
+        .then(response => response.json())
+        .then(feedback => dispatch(addFeedback(feedback)))
+        .catch(err => {
+            alert('Your feedback could not be posted\nError:' + err.message)
+        })
+}
+
+export const addFeedback = (feedback) => ({
+    type: actionTypes.ADD_FEEDBACK,
+    payload: feedback
+})

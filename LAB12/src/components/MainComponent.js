@@ -8,7 +8,7 @@ import About from './AboutComponent';
 import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Contact from './ContactComponent';
-import { fetchComments, fetchDishes, fetchLeaders, fetchPromos, postComment } from '../redux/ActionCreators';
+import { fetchComments, fetchDishes, fetchFeedbacks, fetchLeaders, fetchPromos, postComment, postFeedback } from '../redux/ActionCreators';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 const mapStateToProps = (state) => {
     return {
@@ -23,7 +23,10 @@ const mapDishpatchToProps = (dispatch) => ({
     fetchComments: () => { dispatch(fetchComments()) },
     fetchPromos: () => { dispatch(fetchPromos()) },
     fetchLeaders: () => { dispatch(fetchLeaders()) },
-    postComment: (dishId, rating, author, comment) => { dispatch(postComment(dishId, rating, author, comment)) }
+    fetchFeedbacks: () => { dispatch(fetchFeedbacks()) },
+    postComment: (dishId, rating, author, comment) => { dispatch(postComment(dishId, rating, author, comment)) },
+    postFeedback: (firstname, lastname, telnum, email, agree, contactType, message) => { dispatch(postFeedback(firstname, lastname, telnum, email, agree, contactType, message)) },
+
 })
 class Main extends Component {
     componentDidMount() {
@@ -31,6 +34,7 @@ class Main extends Component {
         this.props.fetchComments();
         this.props.fetchPromos();
         this.props.fetchLeaders();
+        this.props.fetchFeedbacks();
     }
     render() {
         const HomePage = () => {
@@ -70,7 +74,7 @@ class Main extends Component {
 
                             />} />
                             <Route exact path='/menu/:id' element={<DishWithId />} />
-                            <Route exact path='/contactus' element={<Contact />} />
+                            <Route exact path='/contactus' element={<Contact postFeedback={this.props.postFeedback} />} />
                             <Route exact path='/aboutus' element={<About
                                 leaders={this.props.leaders.leaders}
                                 isLoading={this.props.leaders.isLoading}

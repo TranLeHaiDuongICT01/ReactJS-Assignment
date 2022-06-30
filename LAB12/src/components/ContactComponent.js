@@ -16,7 +16,8 @@ class Contact extends Component {
     }
 
     handleSubmit(values) {
-        alert(values);
+        alert(JSON.stringify(values));
+        this.props.postFeedback(values.firstname, values.lastname, values.telNum, values.email, values.agree, values.contactType, values.message);
     }
     render() {
         return (
