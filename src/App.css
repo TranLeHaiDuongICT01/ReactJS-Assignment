@@ -1,0 +1,106 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.row-header {
+  margin: 0px auto;
+  padding: 0px auto;
+}
+
+.row-content {
+  margin: 0px auto;
+  padding: 50px 0px 50px 0px;
+  border-bottom: 1px ridge;
+  min-height: 400px;
+}
+
+.footer {
+  background-color: #D1C4E9;
+  margin: 0px auto;
+  padding: 20px 0px 20px 0px;
+}
+
+.jumbotron {
+  padding: 70px 30px 70px 30px;
+  margin: 0px auto;
+  background: #9575CD;
+  color: floralwhite;
+}
+
+address {
+  font-size: 80%;
+  margin: 0px;
+  color: #0f0f0f;
+}
+
+.navbar-dark {
+  background-color: #512DA8;
+}
+
+.page-enter {
+  opacity: 0.01;
+  transform: translateX(-100%);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateX(0%);
+  transition: all 300ms ease-in;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.page-exit-active {
+  opacity: 0.01;
+  transform: translateX(100%);
+  transition: all 300ms ease-out;
+}
+
+.text {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.text:hover {
+  text-decoration: none;
+}
+
+.salary {
+  background-color: rgb(233, 228, 228);
+  padding: 13px;
+  box-shadow: 2px 2px #ccc;
+}
+
+.btn-form {
+  width: 100px;
+}
+
+
+@media (min-width: 768px) {
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+a, a:hover {
+  text-decoration: none;
+}
+.staff-list-title {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+}
+
+.error {
+  margin-bottom: 0;
+  margin-top: 5px;
+}

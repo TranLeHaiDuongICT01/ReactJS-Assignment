@@ -1,0 +1,63 @@
+constructor(props) {
+        super(props);
+        this.state = {
+            isModalOpen: false,
+            staffs: this.props.staffs
+        }
+        this.handleSearch = this.handleSearch.bind(this);
+        this.handleSort = this.handleSort.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    handleSearch(e) {
+        e.preventDefault();
+        const search = e.target.querySelector('input').value;
+        this.setState({
+            ...this.state,
+            staffs: this.props.staffs.filter(staff => staff.name.toLowerCase().includes(search.toLowerCase()))
+        });
+    }
+    handleSort(e) {
+        e.preventDefault();
+        const sort = e.target.querySelector('select').value;
+        if (sort === 'doB' || sort === '-doB')
+            this.setState({
+                ...this.state,
+                staffs: [...this.props.staffs].sort((a, b) => sort === 'doB' ?
+                    new Date(a.doB).getTime() - new Date(b.doB).getTime() :
+                    new Date(b.doB).getTime() - new Date(a.doB).getTime()
+                )
+            });
+    }
+    toggleModal() {
+        this.setState({
+            isModalOpen: !this.state.isModalOpen
+        });
+    }
+    handleSubmit(values, dispatcher) {
+        const departments = this.props.departments;
+        const index = departments.findIndex(de => de.name === values.department);
+        const staffs = this.props.staffs;
+        const newStaff = {
+            id: staffs.length,
+            name: values?.name,
+            doB: new Date(values?.doB),
+            salaryScale: values.salaryScale,
+            startDate: values.startDate,
+            department: departments[index] || 'Sale',
+            annualLeave: values.annualLeave,
+            overTime: values.overTime,
+            salary: values,
+            image: '/assets/images/alberto.png',
+        }
+        dispatcher(actions.reset('staff', {
+            name: '',
+            doB: '',
+            salaryScale: '',
+            startDate: '',
+            department: 'Sale',
+            annualLeave: '',
+            overTime: ''
+        }));
+        this.toggleModal();
+    }
