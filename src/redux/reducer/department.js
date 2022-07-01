@@ -31,7 +31,26 @@ const departmentReducer = (state = {
             return {
                 ...state,
                 departments: state.departments
-                    .map(department => String(department.id) === String(action.payload.id) ? action.payload : department),
+                    .map(department => {
+                        if (String(department.id) === String(action.payload.id)) {
+                            if (action.payload.isAdd) department.numberOfStaff++;
+                            else department.numberOfStaff--;
+                        }
+                        return department;
+                    }),
+                isLoading: false,
+                errMess: null
+            }
+        case actionType.TRANSFER_STAFF_DEPARTMENT:
+            return {
+                ...state,
+                departments: state.departments.map(department => {
+                    if (department.id === action.payload.prevDepartment)
+                        department.numberOfStaff--;
+                    if (department.id === action.payload.currentDepartment)
+                        department.numberOfStaff++;
+                    return department;
+                }),
                 isLoading: false,
                 errMess: null
             }

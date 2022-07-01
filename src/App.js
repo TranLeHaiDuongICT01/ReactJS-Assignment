@@ -12,6 +12,7 @@ import { useLocation } from 'react-router-dom';
 import { fetchStaffs } from './redux/action/staffs';
 import { fetchDepartments } from './redux/action/departments';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import StaffsDepartment from './components/StaffsDepartment';
 const mapStateToProps = (state) => {
   return {
     staffs: state.staffs,
@@ -50,6 +51,7 @@ class App extends Component {
                 isLoading={this.props.departments.isLoading}
                 errMess={this.props.departments.errMess} />} />
               <Route exact path='/salaryTable' element={<SalaryTable />} />
+              <Route exact path='/departments/:id' element={<StaffsDepartment />} />
               <Route path='*' element={<Navigate to='/staffs' replace />} />
             </Routes>
           </CSSTransition>

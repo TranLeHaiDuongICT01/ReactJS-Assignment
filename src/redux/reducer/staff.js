@@ -2,6 +2,7 @@ import * as actionType from '../action/actionType';
 
 const staffReducer = (state = {
     staffs: [],
+    staffsOfDepartment: [],
     isLoading: true,
     errMess: null
 }, action) => {
@@ -9,7 +10,8 @@ const staffReducer = (state = {
         case actionType.STAFFS_LOADING:
             return {
                 ...state,
-                staffs: [],
+                staffs: state.staffs,
+                staffsOfDepartment: state.staffsOfDepartment,
                 isLoading: true,
                 errMess: null
             }
@@ -17,6 +19,7 @@ const staffReducer = (state = {
             return {
                 ...state,
                 staffs: [],
+                staffsOfDepartment: [],
                 isLoading: false,
                 errMess: action.payload
             }
@@ -30,23 +33,28 @@ const staffReducer = (state = {
         case actionType.ADD_SINGLE_STAFF:
             return {
                 ...state,
-                staffs: state.staffs.concat(action.payload),
+                staffs: action.payload,
                 isLoading: false,
                 errMess: null
             }
         case actionType.UPDATE_STAFF:
             return {
                 ...state,
-                staffs: state.staffs
-                    .map(staff => Number(staff.id) === Number(action.payload.id) ? action.payload : staff),
+                staffs: action.payload,
                 isLoading: false,
                 errMess: null
             }
         case actionType.DELETE_STAFF:
             return {
                 ...state,
-                staffs: state.staffs
-                    .filter(staff => Number(staff.id) !== Number(action.payload.id)),
+                staffs: action.payload,
+                isLoading: false,
+                errMess: null
+            }
+        case actionType.STAFFS_OF_DEPARTMENT:
+            return {
+                ...state,
+                staffsOfDepartment: action.payload,
                 isLoading: false,
                 errMess: null
             }

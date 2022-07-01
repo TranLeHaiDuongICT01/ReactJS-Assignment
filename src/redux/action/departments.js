@@ -12,9 +12,18 @@ export const addDepartments = (departments) => ({
     type: actionType.ADD_DEPARTMENTS,
     payload: departments
 })
-export const updateDepartment = (department) => ({
+export const updateDepartment = (departmentId, isAdd) => ({
     type: actionType.UPDATE_DEPARTMENT,
-    payload: department
+    payload: {
+        id: departmentId,
+        isAdd
+    }
+})
+export const transferStaff = (prevDepartment, currentDepartment) => ({
+    type: actionType.TRANSFER_STAFF_DEPARTMENT,
+    payload: {
+        prevDepartment, currentDepartment
+    }
 })
 
 export const fetchDepartments = () => async (dispatch) => {
@@ -30,20 +39,25 @@ export const fetchDepartments = () => async (dispatch) => {
     }
 }
 
-export const patchDepartment = (department) => async (dispatch) => {
+export const addStaffToDepartment = (departmentId) => (dispatch) => {
     try {
-        const response = await fetch(`${baseUrl}/departments`, {
-            method: 'PATCH',
-            body: JSON.stringify(department),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'same-origin'
-        });
-        if (!response.ok)
-            throw new Error('Error ' + response.status + ': ' + response.statusText);
-        const updatedDepartment = await response.json();
-        dispatch(updateDepartment(updatedDepartment));
+        dispatch(updateDepartment(departmentId, true));
+    } catch (error) {
+        dispatch(departmentsFailed(error.message || 'Something went wrong, please try again'));
+    }
+}
+
+export const removeStaffFromDepartment = (departmentId) => (dispatch) => {
+    try {
+        dispatch(updateDepartment(departmentId, false));
+    } catch (error) {
+        dispatch(departmentsFailed(error.message || 'Something went wrong, please try again'));
+    }
+}
+
+export const transferStaffDepartment = (prevDepartment, currentDepartment) => (dispatch) => {
+    try {
+        dispatch(transferStaff(prevDepartment, currentDepartment));
     } catch (error) {
         dispatch(departmentsFailed(error.message || 'Something went wrong, please try again'));
     }
