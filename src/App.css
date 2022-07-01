@@ -90,9 +90,11 @@ address {
   }
 }
 
-a, a:hover {
+a,
+a:hover {
   text-decoration: none;
 }
+
 .staff-list-title {
   display: flex;
   width: 100%;
@@ -103,4 +105,16 @@ a, a:hover {
 .error {
   margin-bottom: 0;
   margin-top: 5px;
+}
+
+/* Transition */
+.slide-up-appear {
+  opacity: 0;
+  transform: translateY(100px);
+  transition: all 0.5s ease;
+}
+
+.slide-up-appear.slide-up-appear-active {
+  opacity: 1;
+  transform: translateY(0px);
 }

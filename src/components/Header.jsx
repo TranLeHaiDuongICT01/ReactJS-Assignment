@@ -20,7 +20,7 @@ class Header extends Component {
                 <Navbar dark expand="md" className='navbar'>
                     {/* <div className="container"> */}
                     <NavbarBrand className="mr-auto" href="/">
-                        <img src='assets/images/logo.png' height="30" width="41" alt="Ristorante Con Fusion" />
+                        <img src='https://res.cloudinary.com/dhrprrvkf/image/upload/v1656672822/products/logo_vjztp7.png' height="30" width="41" alt="Ristorante Con Fusion" />
                     </NavbarBrand>
                     <NavbarToggler onClick={this.toggleNav} />
                     <Collapse isOpen={this.state.isnavopen} navbar>

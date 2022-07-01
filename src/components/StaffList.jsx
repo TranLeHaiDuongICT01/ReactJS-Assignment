@@ -5,20 +5,25 @@ import ModalAddStaff from "./ModalAddStaff";
 import { actions } from "react-redux-form";
 import { useSelector } from 'react-redux';
 import Loading from './Loading';
+import { Fade } from 'react-animation-components';
 const Staffs = ({ staffs, isLoading, errMess }) => {
     if (isLoading) return <Loading />;
     if (errMess) return <h4 className="text-danger">{errMess}</h4>;
     return (
-        staffs?.map(staff => (
-            <div key={staff.id} className='col-6 col-md-4 col-lg-2 mt-3'>
-                <Card className='hover-effect'>
-                    <Link to={`/staffs/${staff.id}`} className='text'>
-                        <CardImg src={staff.image} alt={staff.name} />
-                        <CardText className='p-1 text'>{staff.name}</CardText>
-                    </Link>
-                </Card>
-            </div>
-        ))
+        <>
+            {staffs?.map(staff => (
+                <div key={staff.id} className='col-6 col-md-4 col-lg-2 mt-3'>
+                    <Fade in>
+                        <Card className='hover-effect'>
+                            <Link to={`/staffs/${staff.id}`} className='text'>
+                                <CardImg src={staff.image} alt={staff.name} />
+                                <CardText className='p-1 text'>{staff.name}</CardText>
+                            </Link>
+                        </Card>
+                    </Fade>
+                </div>
+            ))}
+        </>
     )
 }
 const StaffList = () => {
@@ -49,19 +54,20 @@ const StaffList = () => {
         setIsModalOpen(!isModalOpen);
     }
     const handleSubmit = (values, dispatcher) => {
-        const index = departments.findIndex(de => de.name === values.department);
-        const newStaff = {
-            id: staffs.length,
-            name: values?.name,
-            doB: new Date(values?.doB),
-            salaryScale: values.salaryScale,
-            startDate: values.startDate,
-            department: departments[index] || 'Sale',
-            annualLeave: values.annualLeave,
-            overTime: values.overTime,
-            salary: values,
-            image: '/assets/images/alberto.png',
-        }
+        alert(JSON.stringify(values));
+        // const index = departments.findIndex(de => de.name === values.department);
+        // const newStaff = {
+        //     id: staffs.length,
+        //     name: values?.name,
+        //     doB: new Date(values?.doB),
+        //     salaryScale: values.salaryScale,
+        //     startDate: values.startDate,
+        //     department: departments[index] || 'Sale',
+        //     annualLeave: values.annualLeave,
+        //     overTime: values.overTime,
+        //     salary: values,
+        //     image: '/assets/images/alberto.png',
+        // }
         dispatcher(actions.reset('staff', {
             name: '',
             doB: '',

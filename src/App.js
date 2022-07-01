@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { fetchStaffs } from './redux/action/staffs';
 import { fetchDepartments } from './redux/action/departments';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 const mapStateToProps = (state) => {
   return {
     staffs: state.staffs,
@@ -39,16 +40,20 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        <Routes>
-          <Route exact path='/staffs' element={<StaffList />} />
-          <Route path='/staffs/:id' element={<StaffWithId />} />
-          <Route exact path='/departments' element={<Departments
-            departments={this.props.departments.departments}
-            isLoading={this.props.departments.isLoading}
-            errMess={this.props.departments.errMess} />} />
-          <Route exact path='/salaryTable' element={<SalaryTable />} />
-          <Route path='*' element={<Navigate to='/staffs' replace />} />
-        </Routes>
+        <TransitionGroup>
+          <CSSTransition key={this.props.location.key} timeout={300} classNames='page'>
+            <Routes>
+              <Route exact path='/staffs' element={<StaffList />} />
+              <Route path='/staffs/:id' element={<StaffWithId />} />
+              <Route exact path='/departments' element={<Departments
+                departments={this.props.departments.departments}
+                isLoading={this.props.departments.isLoading}
+                errMess={this.props.departments.errMess} />} />
+              <Route exact path='/salaryTable' element={<SalaryTable />} />
+              <Route path='*' element={<Navigate to='/staffs' replace />} />
+            </Routes>
+          </CSSTransition>
+        </TransitionGroup>
         <Footer />
       </div>
     );

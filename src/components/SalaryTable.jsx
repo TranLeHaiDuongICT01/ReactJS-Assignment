@@ -3,6 +3,7 @@ import { Breadcrumb, BreadcrumbItem, Card, CardText, CardTitle, Form, Button, Ca
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import { useSelector } from 'react-redux';
+import { Fade } from 'react-animation-components';
 const calculateSalary = (salaryScale, overTime) => {
     return Number(salaryScale * 3000000 + overTime * 200000).toFixed(0);
 }
@@ -13,12 +14,14 @@ const Salaries = ({ staffs, isLoading, errMess }) => {
     return (
         staffs?.map(staff => (
             <div key={staff.id} className="col-12 col-md-6 col-lg-4 p-2">
-                <Card className='p-2'>
-                    <CardTitle>{staff.name}</CardTitle>
-                    <CardText>Hệ số lương: {staff.salaryScale}</CardText>
-                    <CardText>Số ngày làm thêm: {staff.overTime}</CardText>
-                    <CardBody className='salary'>{calculateSalary(staff.salaryScale, staff.overTime)}</CardBody>
-                </Card>
+                <Fade in>
+                    <Card className='p-2'>
+                        <CardTitle>{staff.name}</CardTitle>
+                        <CardText>Hệ số lương: {staff.salaryScale}</CardText>
+                        <CardText>Số ngày làm thêm: {staff.overTime}</CardText>
+                        <CardBody className='salary'>{calculateSalary(staff.salaryScale, staff.overTime)}</CardBody>
+                    </Card>
+                </Fade>
             </div>
         ))
     )
