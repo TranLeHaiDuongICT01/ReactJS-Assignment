@@ -9,7 +9,7 @@ import Departments from './components/Departments';
 import SalaryTable from './components/SalaryTable';
 import { connect } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { fetchStaffs } from './redux/action/staffs';
+import { fetchStaffs, fetchStaffsSalary } from './redux/action/staffs';
 import { fetchDepartments } from './redux/action/departments';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import StaffsDepartment from './components/StaffsDepartment';
@@ -21,12 +21,14 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => ({
   fetchStaffs: () => { dispatch(fetchStaffs()) },
-  fetchDepartments: () => { dispatch(fetchDepartments()) }
+  fetchDepartments: () => { dispatch(fetchDepartments()) },
+  fetchStaffsSalary: () => { dispatch(fetchStaffsSalary()) }
 })
 class App extends Component {
   componentDidMount() {
     this.props.fetchStaffs();
     this.props.fetchDepartments();
+    this.props.fetchStaffsSalary();
   }
   render() {
     const StaffWithId = () => {

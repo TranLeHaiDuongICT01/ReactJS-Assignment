@@ -4,9 +4,6 @@ import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import { useSelector } from 'react-redux';
 import { Fade } from 'react-animation-components';
-const calculateSalary = (salaryScale, overTime) => {
-    return Number(salaryScale * 3000000 + overTime * 200000).toFixed(0);
-}
 
 const Salaries = ({ staffs, isLoading, errMess }) => {
     if (isLoading) return <Loading />;
@@ -19,7 +16,7 @@ const Salaries = ({ staffs, isLoading, errMess }) => {
                         <CardTitle>{staff.name}</CardTitle>
                         <CardText>Hệ số lương: {staff.salaryScale}</CardText>
                         <CardText>Số ngày làm thêm: {staff.overTime}</CardText>
-                        <CardBody className='salary'>{calculateSalary(staff.salaryScale, staff.overTime)}</CardBody>
+                        <CardBody className='salary'>{staff.salary}</CardBody>
                     </Card>
                 </Fade>
             </div>
@@ -28,7 +25,7 @@ const Salaries = ({ staffs, isLoading, errMess }) => {
 }
 const SalaryTable = () => {
     const [staffs, setStaffs] = useState();
-    const { staffs: staffList, isLoading, errMess } = useSelector(state => state.staffs);
+    const { staffsSalary: staffList, isLoading, errMess } = useSelector(state => state.staffs);
     useEffect(() => {
         if (!isLoading) setStaffs(staffList);
     }, [isLoading, staffList])
