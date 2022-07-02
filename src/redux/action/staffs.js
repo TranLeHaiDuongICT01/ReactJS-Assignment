@@ -27,11 +27,15 @@ export const addStaffOfDepartment = (staffs) => ({
     type: actionType.STAFFS_OF_DEPARTMENT,
     payload: staffs
 })
+export const addStaffsSalary = (staffs) => ({
+    type: actionType.STAFFS_SALARY,
+    payload: staffs
+})
 
 export const fetchStaffs = () => async (dispatch) => {
     try {
         dispatch(staffsLoading());
-        const response = await fetch(`${baseUrl}/staffsSalary`);
+        const response = await fetch(`${baseUrl}/staffs`);
         if (!response.ok)
             throw new Error('Error ' + response.status + ': ' + response.statusText);
         const staffs = await response.json();
@@ -101,6 +105,19 @@ export const fetchStaffsOfDepartment = (departmentId) => async (dispatch) => {
             throw new Error('Error ' + response.status + ': ' + response.statusText);
         const staffs = await response.json();
         dispatch(addStaffOfDepartment(staffs));
+    } catch (error) {
+        dispatch(staffFailed(error.message || 'Something went wrong, please try again'));
+    }
+}
+
+export const fetchStaffsSalary = () => async (dispatch) => {
+    try {
+        dispatch(staffsLoading());
+        const response = await fetch(`${baseUrl}/staffsSalary`);
+        if (!response.ok)
+            throw new Error('Error ' + response.status + ': ' + response.statusText);
+        const staffs = await response.json();
+        dispatch(addStaffsSalary(staffs));
     } catch (error) {
         dispatch(staffFailed(error.message || 'Something went wrong, please try again'));
     }

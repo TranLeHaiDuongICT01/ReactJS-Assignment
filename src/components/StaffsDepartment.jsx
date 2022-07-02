@@ -28,10 +28,10 @@ const Staffs = ({ staffs }) => {
 const StaffsDepartment = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
+    const { staffsOfDepartment: staffs, isLoading, errMess } = useSelector(state => state.staffs);
     useEffect(() => {
         dispatch(fetchStaffsOfDepartment(id));
     }, [dispatch, id]);
-    const { staffsOfDepartment: staffs, isLoading, errMess } = useSelector(state => state.staffs);
     if (isLoading) return <Loading />;
     if (errMess) return <h4 className="text-danger">{errMess}</h4>;
     if (!staffs || staffs.length === 0) {
